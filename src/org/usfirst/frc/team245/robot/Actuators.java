@@ -14,6 +14,8 @@ public class Actuators {
 	private static CANTalon leftDriveMotor;
 	private static CANTalon leftDriveMotorSlave;
 	
+	
+	
 	//Pneumatics
 	private static Solenoid driveShiftPneumatic;
 	
