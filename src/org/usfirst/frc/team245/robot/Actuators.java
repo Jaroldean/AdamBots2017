@@ -4,7 +4,9 @@ import com.ctre.CANTalon;
 
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.VictorSP;
 
+import org.usfirst.frc.team245.robot.Constants;
 public class Actuators {
 	
 	//Motors
@@ -68,10 +70,65 @@ public class Actuators {
 		return leftDriveMotorSlave;
 	}
 	/*
+	 * @return climbMotor
+	 */
+	public static CANTalon getClimbMotor() {
+		return climbMotor;
+	}
+	
+	/*
 	 * @return driveShiftPneumatic
 	 * */
 	public static Solenoid getDriveShiftPneumatic() {
 		return driveShiftPneumatic;
 	}
-	
+	/*
+	 * @return fuelIntakeMotor
+	 */
+	public static VictorSP getFuelIntakeMotor() {
+		return fuelIntakeMotor;
+	}
+	/*
+	 * @return fuelOuttakeMotor
+	 */
+	public static VictorSP getFuelOuttakeMotor() {
+		return fuelOuttakeMotor;
+	}
+	/*
+	 * @return fuelConveyorMotor
+	 */
+	public static VictorSP getFuelConveyorMotor() {
+		return fuelConveyorMotor;
+	}
+	/*
+	 * @return dispenseGearAdvancePneumatic
+	 */
+	public static Solenoid getDispenseGearAdvancePneumatic() {
+		return dispenseGearAdvancePneumatic;
+	}
+	/*
+	 * @return dispenseGearReturnPneumatic
+	 */
+	public static Solenoid getDispenseGearReturnPneumatic() {
+		return dispenseGearReturnPneumatic;
+	}
+	/*
+	 * @return gearLiftPneumatic
+	 */
+	public static Solenoid getGearLiftPneumatic() {
+		return gearLiftPneumatic;
+	}
+	/*
+	 * @return sweeperAdvancePneumatic
+	 */
+	public static Solenoid getSweeperAdvancePneumatic() {
+		return sweeperAdvancePneumatic;
+	}
+	/*
+	 * @return sweeperReturnPneumatic
+	 */
+	public static Solenoid getSweeperReturnPneumatic() {
+		return sweeperReturnPneumatic;
+	}
 }
+
