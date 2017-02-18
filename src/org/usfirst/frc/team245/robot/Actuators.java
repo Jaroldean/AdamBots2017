@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 
 import org.usfirst.frc.team245.robot.Constants;
+
 public class Actuators {
 	
 	//Motors
