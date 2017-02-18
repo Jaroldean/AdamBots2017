@@ -42,16 +42,114 @@ public class BaseLine {
 		
 		
 	}
+	public void reset() {
+		_talon.clearMotionProfileTrajectories();
+		setvalue = CANTalon.SetValueMotionProfile.Disable;
+		state = 0;
+		LoopTimeout = -1;
+	    start = false;
+	
+	}
+	
+	
+	
+	public void control() {
+		_talon.getMotionProfileStatus(status);
+		
+		if (LoopTimeout < 0) {
+		} else { 
+			
+			if (LoopTimeout == 0) {
+				
+				instrumentation.OnNoProgress();
+			} else {		
+				
+			--LoopTimeout;
+			
+			}
+		}
+		
+	
 
+	if (_talon.getControlMode() != TalonControlMode.MotionProfile) {
+		state = 0;
+		LoopTimeout = -1;
+	} else {
+		switch (state) {
+		  case 0:
+			  if (start) { 
+				  start = false;
+				  setvalue = CANTalon.SetValueMotionProfile.Disable;
+				  startFilling();
+				  state = 1;
+				  LoopTimeout = NumLoopsTimeout;
+			      }			
+			  
+			  break;
+		  case 1:
+			  if (status.btmBufferCnt > minPointsInTalon) {
+				  
+				  setvalue = CANTalon.SetValueMotionProfile.Enable;
+				  state = 2;
+				  LoopTimeout = NumLoopsTimeout;
+			  }
+				  
+		  case 2: if (status.isUnderrun == false) { 
+			  		LoopTimeout = NumLoopsTimeout;
+				  
+			  }
+		
+		  		if (status.activePointValid && status.activePoint.isLastPoint) {
+		
+		  			setvalue = CANTalon.SetValueMotionProfile.Hold;
+		  			state = 0;
+		  			LoopTimeout = -1; 
+		  		}
+		  		break;
+		  	}
 
+		}
+			instrumentation.process(status);
+}                                                     
+		
 
+	private void StartFilling() {
+	
+		startFilling(BaseLinePoints.Points, BaseLinePoints.kNumPoints);
+}
+	
+private void startFilling(double[][] profile, int totalCnt){
+	CANTalon.TrajectoryPoint point = new CANTalon.TrajectoryPoint();
+	if(status.hasUnderrun){
+		intrumentation.OnUnderrun();
+		_talon.clearMotionProfileHasUnderrun();
+	}
+	_talon.clearMotionProfileTrajectories();
+	for(int i = 0; i < totalCnt; ++i){
+		point.position = profile[i][0];
+		point.velocity = profile[i][1];
+		point.timeDurMs = (int) profile[i][2];
+		point.profileSlotSelect = 0;
+		point.velocityOnly = false;
+		point.zeroPos = false;
+		if(i == 0)
+			point.zeroPos = true;
+		
+		point.isLastPoint = false;
+		if((i + 1) == totalCnt)
+			point.isLastPoint = true;
+		
+		_talon.pushMotionProfileTrajectory(point);
+	}
+}
+void startMotorProfile() {
+	start = true;
 
-
-
-
-
-
-
+}
+	
+CANTalon.SetValueMotionProfile getsetvalue () {
+	return setvalue;
+}
 
 }
 
